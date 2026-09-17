@@ -1,6 +1,6 @@
 <?php
 
-require_once '../model/modele.php';
+require_once 'model/modele.php';
 class Controller{
 
     private $model;
@@ -13,36 +13,41 @@ class Controller{
     public function index()
     {
         $commandes = $this->model->getCommandes();
-        require '../view/list_commandes.php';
+        require 'view/liste_commandes.php';
     }
 
     public function ajouterCommande($quantite, $dateLivraison, $statut, $produit, $idClient)
     {
         $this->model->ajouterCommande($quantite, $dateLivraison, $statut, $produit, $idClient);
-        header('Location: /');
+        header('Location: index.php');
     }
 
-    public function modifierCommande($quantite, $dateLivraison, $statut, $produit, $idClient)
+    public function modifierCommande($numCommande, $quantite, $dateLivraison, $statut, $produit, $idClient)
     {
-        $this->model->modifierCommande($quantite, $dateLivraison, $statut, $produit, $idClient);
-        header('Location: /');
+        $this->model->modifierCommande($numCommande, $quantite, $dateLivraison, $statut, $produit, $idClient);
+        header('Location: index.php');
     }
 
     public function suppCommande($numCommande)
     {
         $this->model->suppCommande($numCommande);
-        header('Location: /');
+        header('Location: index.php');
     }
 
     public function pageAjout()
     {
-        $this->model->getClients();
-        require '../view/ajout.php';
+        $clients = $this->model->getClients();
+        require 'view/ajout.php';
+    }
+
+        public function pageModifier($numCommande) {
+        $commande = $this->model->getCommandeParNum($numCommande);
+        require 'view/modifier.php';
     }
 
     public function pageDevis($numCommande) {
-        $this->model->getCommande($numCommande);
-        require '../view/devis.php';
+        $commande = $this->model->getCommandeParNum($numCommande);
+        require 'view/devis.php';
     }
 
 }

@@ -5,7 +5,7 @@
     <title>Ajout de commande</title>
 </head>
 <body>
-    <form action="index.php" method="post">
+    <form action="index.php?action=ajouter" method="post">
         <input type="hidden" name="action" value="ajouter">
         
         <label>Client :</label><br>
@@ -16,16 +16,20 @@
                     </option>
                 <?php endforeach; ?>
             </select><br>
+
         <label>Date de livraison :</label>
             <input type="date" name="date_livraison"><br>
+
         <label>Statut :</label>
             <select name="statut">
                 <option value="attente">En attente</option>
                 <option value="validée">Validée</option>
                 <option value="livrée">Livrée</option>
             </select><br>
+            
         <label>Produit :</label>
             <input type="text" name="produit"><br>
+
         <label>Quantité :</label>
             <input type="number" name="quantite"><br>
         <input type="submit" value="Envoyer">
