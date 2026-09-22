@@ -7,22 +7,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') //Action effectuer selon le formulair
 {
     if (isset($_POST['action']) && $_POST['action'] === 'ajouter') 
     {
-        $controller->ajouterCommande($_POST['quantite'], $_POST['date_livraison'], $_POST['statut'], $_POST['produit'], $_POST['client']);
+        $controller->ajouterCommande($_POST['date_livraison'], $_POST['statut'], $_POST['produit'], $_POST['client']);
     }
     elseif (isset($_POST['action']) && $_POST['action'] === 'modifier') 
     {
-        $controller->modifierCommande($_POST['numCommande'], $_POST['quantite'], $_POST['dateLivraison'], $_POST['statut'], $_POST['produit'], $_POST['idClient']);
+        $controller->modifierCommande($_POST['numCommande'], $_POST['dateLivraison'], $_POST['statut'], $_POST['produit'], $_POST['idClient']);
     }
 } 
 elseif (isset($_GET['action'])) //Action effectuer selon l'URL (donc bouton cliquer)
 {
     if ($_GET['action'] === 'ajout') 
     {
-        $controller->pageAjout();
+        $controller->pageAjoutCommande();
     } 
     elseif ($_GET['action'] === 'modifier' && isset($_GET['numCommande'])) 
     {
-        $controller->pageModifier($_GET['numCommande']);
+        $controller->pageModifierCommande($_GET['numCommande']);
     } 
     elseif ($_GET['action'] === 'supprimer' && isset($_GET['numCommande'])) 
     {

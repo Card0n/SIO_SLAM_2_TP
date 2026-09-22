@@ -16,6 +16,7 @@ class Controller{
         require 'view/liste_commandes.php';
     }
 
+//requete pour les commandes
     public function ajouterCommande($quantite, $dateLivraison, $statut, $produit, $idClient)
     {
         $this->model->ajouterCommande($quantite, $dateLivraison, $statut, $produit, $idClient);
@@ -34,6 +35,7 @@ class Controller{
         header('Location: index.php');
     }
 
+//redirection vers les pages avec leur paramètres requis
     public function pageAjout()
     {
         $clients = $this->model->getClients();

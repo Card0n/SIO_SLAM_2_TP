@@ -17,6 +17,7 @@ class Commandes{
 
 
 //Requetes pour la récupération des données (GET)
+    //Requetes Commandes
     public function getCommandes(){
         $query = $this->db->prepare("SELECT * FROM {$this->prefixe}commandes JOIN {$this->prefixe}clients ON {$this->prefixe}commandes.idClient = {$this->prefixe}clients.idClient");
         $query->execute();
@@ -29,20 +30,25 @@ class Commandes{
         return $query->fetch();
     }
 
-    public function getClients() {
+    public function getClientsPourCommandes() {
         $query = $this->db->prepare("SELECT idClient, prenom, nom FROM {$this->prefixe}clients");
         $query->execute();
         return $query->fetchAll();
     }
 
+    //Requetes Clients :
+    public function getClients() {
+        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}clients");
+        $query->execute();
+        return $query->fetchAll();
+    }
 
 //Requetes pour l'ajout (INSERT)
-    public function ajouterCommande($quantite, $dateLivraison, $statut, $produit, $idClient)
+    public function ajouterCommande($dateLivraison, $statut, $produit, $idClient)
     {
-        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}commandes`(`quantite`, `dateLivraison`, `statut`, `produit`, `idClient`) VALUES (:quantite, :date_livraison, :statut, :produit, :idClient)");
+        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}commandes`(`dateLivraison`, `statut`, `produit`, `idClient`) VALUES (:date_livraison, :statut, :produit, :idClient)");
         
         $query->execute([
-            ':quantite' => $quantite,
             ':date_livraison' => $dateLivraison,
             ':statut' => $statut,
             ':produit' => $produit,
@@ -52,13 +58,12 @@ class Commandes{
 
 
 //Requetes pour la modification (UPDATE)
-    public function modifierCommande($numCommande, $quantite, $dateLivraison, $statut, $produit, $idClient)
+    public function modifierCommande($numCommande, $dateLivraison, $statut, $produit, $idClient)
     {
-        $query = $this->db->prepare("UPDATE `{$this->prefixe}commandes` SET `quantite` = :quantite, `dateLivraison` = :date_livraison, `statut` = :statut, `produit` = :produit, `idClient` = :idClient WHERE `numCommande` = :numCommande");
+        $query = $this->db->prepare("UPDATE `{$this->prefixe}commandes` SET `dateLivraison` = :date_livraison, `statut` = :statut, `produit` = :produit, `idClient` = :idClient WHERE `numCommande` = :numCommande");
         
         $query->execute([
             ':numCommande' => $numCommande,
-            ':quantite' => $quantite,
             ':date_livraison' => $dateLivraison,
             ':statut' => $statut,
             ':produit' => $produit,
