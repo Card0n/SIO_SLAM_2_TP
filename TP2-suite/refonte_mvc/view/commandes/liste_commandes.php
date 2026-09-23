@@ -7,10 +7,18 @@
 </head>
 
 <body>
+    <nav>
+        
+        <button><a href="index.php">Commandes</a></button>
+        <button><a href="index.php?action=listeClients">Clients</a></button>
+        <button><a href="index.php?action=listeProduits">Produits</a></button>
+        <button><a href="index.php?action=listeStatut">Statut</a></button>
+        
+    </nav>
     <h1>Liste des commandes</h1>
     <br>
 
-    <button><a href="index.php?action=ajout">Ajouter une commande</a></button>
+    <button><a href="index.php?action=ajouterCommande">Ajouter une commande</a></button>
 
     <table>
         <tr>
@@ -30,8 +38,8 @@
             <td><?php echo $commande['dateLivraison']; ?></td>
             <td><?php echo $commande['statut']; ?></td>
             
-            <td> <a href='index.php?action=modifier&numCommande=<?php echo $commande['numCommande']; ?>'>Modifier</a> 
-            <a href='index.php?action=supprimer&numCommande=<?php echo $commande['numCommande']; ?>'>Supprimer</a> 
+            <td> <a href='index.php?action=modifierCommande&numCommande=<?php echo $commande['numCommande']; ?>'>Modifier</a> 
+            <a href='index.php?action=supprimerCommande&numCommande=<?php echo $commande['numCommande']; ?>'>Supprimer</a> 
             <a href='index.php?action=voir&numCommande=<?php echo $commande['numCommande']; ?>'>Voir</a></td>
         </tr>
         <?php endforeach; ?>

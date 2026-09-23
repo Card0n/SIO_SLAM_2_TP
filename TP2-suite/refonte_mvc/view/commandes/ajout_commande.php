@@ -5,8 +5,8 @@
     <title>Ajout de commande</title>
 </head>
 <body>
-    <form action="index.php?action=ajouter" method="post">
-        <input type="hidden" name="action" value="ajouter">
+    <form action="index.php" method="post">
+        <input type="hidden" name="action" value="ajouterCommande">
         
         <label>Client :</label><br>
             <select name="client">
@@ -22,13 +22,21 @@
 
         <label>Statut :</label>
             <select name="statut">
-                <option value="attente">En attente</option>
-                <option value="validée">Validée</option>
-                <option value="livrée">Livrée</option>
+                <?php foreach ($statuts as $statut): ?>
+                    <option value="<?php echo $statut['idStatut']; ?>">
+                        <?php echo $statut['nomStatut']; ?>
+                    </option>
+                <?php endforeach; ?>
             </select><br>
             
         <label>Produit :</label>
-            <input type="text" name="produit"><br>
+            <select name="produit">
+                <?php foreach ($produits as $produit): ?>
+                    <option value="<?php echo $produit['idProduit']; ?>">
+                        <?php echo $produit['nomProduit']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select><br>
         <input type="submit" value="Envoyer">
     </form>
 </body>

@@ -6,13 +6,13 @@
 </head>
 <body>
     <form action="index.php" method="post">
-        <input type="hidden" name="action" value="modifier">
+        <input type="hidden" name="action" value="modifierClient">
         <input type="hidden" name="idClient" value="<?php echo $client['idClient']; ?>">
         
         <label>Prenom :</label>
-            <input type="text" value="<?php echo $client['prenom']; ?>"><br>
+            <input type="text" name="prenom" value="<?php echo $client['prenom']; ?>"><br>
         <label>Nom :</label>
-            <input type="text" value="<?php echo $client['nom']; ?>"><br>
+            <input type="text" name="nom" value="<?php echo $client['nom']; ?>"><br>
         <label>Téléphone :</label>
             <input type="text" name="telephone" value="<?php echo $client['telephone']; ?>" ><br>
         <label>Mail :</label>

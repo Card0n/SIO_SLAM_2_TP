@@ -15,23 +15,37 @@ class Commandes{
         } 
     }
 
-
-//Requetes pour la récupération des données (GET)
-    //Requetes Commandes
-    public function getCommandes(){
-        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}commandes JOIN {$this->prefixe}clients ON {$this->prefixe}commandes.idClient = {$this->prefixe}clients.idClient");
+    public function getCommandes()
+    {
+        $query =$this->db->prepare("SELECT c.*, cl.nom, cl.prenom, s.nomstatut 
+                                    FROM {$this->prefixe}commandes c
+                                    JOIN {$this->prefixe}clients cl ON c.idClient = cl.idClient
+                                    JOIN {$this->prefixe}statut s ON c.idstatut = s.idstatut");
         $query->execute();
         return $query->fetchAll();
     }
 
-    public function getCommandeParNum($numCommande) {
-        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}commandes JOIN {$this->prefixe}clients ON {$this->prefixe}commandes.idClient = {$this->prefixe}clients.idClient WHERE numCommande = :numCommande");
-        $query->execute([':numCommande' => $numCommande]);
+    public function getCommandeParNum($numCommande) 
+    {
+        $query =$this->db->prepare("");//mettre requete
+        $query->execute([':numCommande' =>$numCommande]);
         return $query->fetch();
     }
 
     public function getClientsPourCommandes() {
         $query = $this->db->prepare("SELECT idClient, prenom, nom FROM {$this->prefixe}clients");
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    public function getProduitsPourCommandes() {
+        $query = $this->db->prepare("SELECT idProduit, nomProduit FROM {$this->prefixe}produit");
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    public function getStatutsPourCommandes() {
+        $query = $this->db->prepare("SELECT idStatut, nomStatut FROM {$this->prefixe}statut");
         $query->execute();
         return $query->fetchAll();
     }
@@ -43,16 +57,82 @@ class Commandes{
         return $query->fetchAll();
     }
 
+    public function getClientParId($idClient) {
+        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}clients WHERE idClient = :idClient");
+        $query->execute([':idClient' => $idClient]);
+        return $query->fetch();
+    }
+    
+
+    //Requetes Produits :
+    public function getProduits() {
+        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}produit");
+        $query->execute();
+        return $query->fetchAll();
+    }
+
+    public function getProduitParId($idProduit) {
+        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}produit WHERE idProduit = :idProduit");
+        $query->execute([':idProduit' => $idProduit]);
+        return $query->fetch();
+    }
+
+    //Requetes Statuts :
+    public function getStatuts() {
+        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}statut");
+        $query->execute();
+        return $query->fetchAll();
+    }
+    public function getStatutParId($idStatut) {
+        $query = $this->db->prepare("SELECT * FROM {$this->prefixe}statut WHERE idStatut = :idStatut");
+        $query->execute([':idStatut' => $idStatut]);
+        return $query->fetch();
+    }
+
+
 //Requetes pour l'ajout (INSERT)
-    public function ajouterCommande($dateLivraison, $statut, $produit, $idClient)
+    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient)
     {
-        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}commandes`(`dateLivraison`, `statut`, `produit`, `idClient`) VALUES (:date_livraison, :statut, :produit, :idClient)");
+        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}commandes`(`dateLivraison`, `idstatut`, `idproduit`, `idClient`) VALUES (:date_livraison, :idstatut, :idproduit, :idClient)");
         
         $query->execute([
             ':date_livraison' => $dateLivraison,
-            ':statut' => $statut,
-            ':produit' => $produit,
+            ':idstatut' => $idstatut,
+            ':idproduit' => $idproduit,
             ':idClient' => $idClient
+        ]);
+    }
+
+    public function ajouterClient($prenom, $nom, $telephone, $mail, $adresse, $codePostal)
+    {
+        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}clients`(`prenom`, `nom`, `telephone`, `mail`, `adresse`, `codePostal`) VALUES (:prenom, :nom, :telephone, :mail, :adresse, :codePostal)");
+        
+        $query->execute([
+            ':prenom' => $prenom,
+            ':nom' => $nom,
+            ':telephone' => $telephone,
+            ':mail' => $mail,
+            ':adresse' => $adresse,
+            ':codePostal' => $codePostal
+        ]);
+    }
+
+    public function ajouterProduit($nomProduit, $prixUnitaire)
+    {
+        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}produit`(`nomProduit`, `prixUnitaire`) VALUES (:nomProduit, :prixUnitaire)");
+        
+        $query->execute([
+            ':nomProduit' => $nomProduit,
+            ':prixUnitaire' => $prixUnitaire
+        ]);
+    }
+    
+    public function ajouterStatut($nomStatut)
+    {
+        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}statut`(`nomStatut`) VALUES (:nomStatut)");
+        
+        $query->execute([
+            ':nomStatut' => $nomStatut
         ]);
     }
 
@@ -71,7 +151,41 @@ class Commandes{
         ]);
     }
 
+    public function modifierClient($idClient, $prenom, $nom, $telephone, $mail, $adresse, $codePostal)
+    {
+        $query = $this->db->prepare("UPDATE `{$this->prefixe}clients` SET `prenom` = :prenom, `nom` = :nom, `telephone` = :telephone, `mail` = :mail, `adresse` = :adresse, `codePostal` = :codePostal WHERE `idClient` = :idClient");
+        
+        $query->execute([
+            ':idClient' => $idClient,
+            ':prenom' => $prenom,
+            ':nom' => $nom,
+            ':telephone' => $telephone,
+            ':mail' => $mail,
+            ':adresse' => $adresse,
+            ':codePostal' => $codePostal
+        ]);
+    }
 
+    public function modifierProduit($idProduit, $nomProduit, $prixUnitaire)
+    {
+        $query = $this->db->prepare("UPDATE `{$this->prefixe}produit` SET `nomProduit` = :nomProduit, `prixUnitaire` = :prixUnitaire WHERE `idProduit` = :idProduit");
+        
+        $query->execute([
+            ':idProduit' => $idProduit,
+            ':nomProduit' => $nomProduit,
+            ':prixUnitaire' => $prixUnitaire
+        ]);
+    }
+
+    public function modifierStatut($idStatut, $nom)
+    {
+        $query = $this->db->prepare("UPDATE `{$this->prefixe}statut` SET `nomStatut` = :nom WHERE `idStatut` = :idStatut");
+        
+        $query->execute([
+            ':idStatut' => $idStatut,
+            ':nom' => $nom
+        ]);
+    }
 //Requetes pour la suppression (DELETE)
     public function suppCommande($numCommande)
     {
@@ -80,6 +194,28 @@ class Commandes{
             ':numCommande' => $numCommande
         ]);
     }
-}
 
-?>
+    public function suppClient($idClient)
+    {
+        $query = $this->db->prepare("DELETE FROM `{$this->prefixe}clients` WHERE `idClient` = :idClient");
+        $query->execute([
+            ':idClient' => $idClient
+        ]);
+    }
+
+    public function suppProduit($idProduit)
+    {
+        $query = $this->db->prepare("DELETE FROM `{$this->prefixe}produit` WHERE `idProduit` = :idProduit");
+        $query->execute([
+            ':idProduit' => $idProduit
+        ]);
+    }
+
+    public function suppStatut($idStatut)
+    {
+        $query = $this->db->prepare("DELETE FROM `{$this->prefixe}statut` WHERE `idStatut` = :idStatut");
+        $query->execute([
+            ':idStatut' => $idStatut
+        ]);
+    }
+}

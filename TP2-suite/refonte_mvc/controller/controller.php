@@ -16,16 +16,16 @@ class Controller{
         require 'view/commandes/liste_commandes.php';
     }
 
-//requete pour les commandes
-    public function ajouterCommande($dateLivraison, $statut, $produit, $idClient)
+//Requetes pour les commandes
+    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient)
     {
-        $this->model->ajouterCommande($dateLivraison, $statut, $produit, $idClient);
+        $this->model->ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient);
         header('Location: index.php');
     }
 
-    public function modifierCommande($numCommande, $dateLivraison, $statut, $produit, $idClient)
+    public function modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient)
     {
-        $this->model->modifierCommande($numCommande, $dateLivraison, $statut, $produit, $idClient);
+        $this->model->modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient);
         header('Location: index.php');
     }
 
@@ -35,11 +35,80 @@ class Controller{
         header('Location: index.php');
     }
 
-//redirection vers les pages avec leur paramètres requis
+//Requetes pour les clients
+
+    public function listeClients() {
+        $clients = $this->model->getClients();
+        require 'view/clients/liste_clients.php';
+    }
+
+    public function ajouterClient($prenom, $nom, $telephone, $mail, $adresse, $codePostal)
+    {
+        $this->model->ajouterClient($prenom, $nom, $telephone, $mail, $adresse, $codePostal);
+        header('Location: index.php?action=listeClients');
+    }
+
+    public function modifierClient($idClient, $prenom, $nom, $telephone, $mail, $adresse, $codePostal)
+    {
+        $this->model->modifierClient($idClient, $prenom, $nom, $telephone, $mail, $adresse, $codePostal);
+        header('Location: index.php?action=listeClients');
+    }
+
+    public function suppClient($idClient)
+    {
+        $this->model->suppClient($idClient);
+        header('Location: index.php?action=listeClients');
+    }
+
+
+//Requetes pour les produits
+
+    public function ajouterProduit($nomProduit, $prixUnitaire)
+    {
+        $this->model->ajouterProduit($nomProduit, $prixUnitaire);
+        header('Location: index.php?action=listeProduits');
+    }
+
+    public function modifierProduit($idProduit, $nomProduit, $prixUnitaire)
+    {
+        $this->model->modifierProduit($idProduit, $nomProduit, $prixUnitaire);
+        header('Location: index.php?action=listeProduits');
+    }
+
+    public function suppProduit($idProduit)
+    {
+        $this->model->suppProduit($idProduit);
+        header('Location: index.php?action=listeProduits');
+    }
+
+
+//Requetes pour les statuts
+
+    public function ajouterStatut($nom)
+    {
+        $this->model->ajouterStatut($nom);
+        header('Location: index.php?action=listeStatut');
+    }
+
+    public function modifierStatut($idStatut, $nom)
+    {
+        $this->model->modifierStatut($idStatut, $nom);
+        header('Location: index.php?action=listeStatut');
+    }
+
+    public function suppStatut($idStatut)
+    {
+        $this->model->suppStatut($idStatut);
+        header('Location: index.php?action=listeStatut');
+    }
+
+//Redirection vers les pages avec leur paramètres requis
     //Pages commandes :
     public function pageAjoutCommande()
     {
         $clients = $this->model->getClientsPourCommandes();
+        $statuts = $this->model->getStatutsPourCommandes();
+        $produits = $this->model->getProduitsPourCommandes();
         require 'view/commandes/ajout_commande.php';
     }
 
@@ -56,7 +125,44 @@ class Controller{
     //Pages clients :
     public function pageAjoutClient()
     {
-        
         require 'view/clients/ajout_client.php';
+    }
+
+    public function pageModifierClient($idClient) 
+    {
+        $client = $this->model->getClientParId($idClient);
+        require 'view/clients/modifier_client.php';
+    }
+
+    //Pages produits :
+    public function listeProduits() {
+        $produits = $this->model->getProduits();
+        require 'view/produit/liste_produit.php';
+    }
+
+    public function pageAjoutProduit()
+    {
+        require 'view/produit/ajout_produit.php';
+    }
+
+    public function pageModifierProduit($idProduit) 
+    {
+        $produit = $this->model->getProduitParId($idProduit);
+        require 'view/produit/modifier_produit.php';
+    }
+
+    //Pages statuts :
+    public function listeStatut() {
+        $statuts = $this->model->getStatuts();
+        require 'view/statut/liste_statut.php';
+    }
+    public function pageAjoutStatut()
+    {
+        require 'view/statut/ajout_statut.php';
+    }
+    public function pageModifierStatut($idStatut) 
+    {
+        $statut = $this->model->getStatutParId($idStatut);
+        require 'view/statut/modifier_statut.php';
     }
 }

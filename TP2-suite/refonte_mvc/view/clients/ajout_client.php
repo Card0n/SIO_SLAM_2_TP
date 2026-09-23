@@ -5,8 +5,8 @@
     <title>Ajout de client</title>
 </head>
 <body>
-    <form action="index.php?action=ajouter" method="post">
-        <input type="hidden" name="action" value="ajouter">
+    <form action="index.php" method="post">
+        <input type="hidden" name="action" value="ajouterClient">
         
         <label>Prenom :</label>
             <input type="text" name="prenom"><br>

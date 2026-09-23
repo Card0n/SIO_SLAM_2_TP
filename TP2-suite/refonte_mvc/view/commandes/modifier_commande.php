@@ -6,7 +6,7 @@
 </head>
 <body>
     <form action="index.php" method="post">
-        <input type="hidden" name="action" value="modifier">
+        <input type="hidden" name="action" value="modifierCommande">
         <input type="hidden" name="numCommande" value="<?php echo $commande['numCommande']; ?>">
         <input type="hidden" name="idClient" value="<?php echo $commande['idClient']; ?>">
         
