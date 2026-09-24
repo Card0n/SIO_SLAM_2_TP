@@ -8,11 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') //Action effectuer selon le formulair
     //Commandes
     if (isset($_POST['action']) && $_POST['action'] === 'ajouterCommande') 
     {
-        $controller->ajouterCommande($_POST['date_livraison'], $_POST['statut'], $_POST['produit'], $_POST['client']);
+        $controller->ajouterCommande($_POST['date_livraison'], $_POST['statut'], $_POST['produit'], $_POST['client'], $_POST['quantite']);
     }
     elseif (isset($_POST['action']) && $_POST['action'] === 'modifierCommande') 
     {
-        $controller->modifierCommande($_POST['numCommande'], $_POST['dateLivraison'], $_POST['statut'], $_POST['produit'], $_POST['idClient']);
+        $controller->modifierCommande($_POST['numCommande'], $_POST['dateLivraison'], $_POST['statut'], $_POST['produit'], $_POST['idClient'], $_POST['quantite']);
     }
 
     //Clients

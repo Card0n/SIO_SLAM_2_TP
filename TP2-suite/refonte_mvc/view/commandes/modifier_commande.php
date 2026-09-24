@@ -21,7 +21,7 @@
         <label>Produit :</label>
             <input type="text" name="produit" value="<?php echo $commande['produit']; ?>" ><br>
         <label>Quantité :</label>
-            <input type="number" name="quantite" value="<?php echo $commande['quantite']; ?>" ><br>
+            <input type="number" name="quantite" value="<?php echo $commande['quantite']; ?>" ><br>//voir comment y acceder
         <input type="submit" value="Envoyer">
     </form>
 </body>

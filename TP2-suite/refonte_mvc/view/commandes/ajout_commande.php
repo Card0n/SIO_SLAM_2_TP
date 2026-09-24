@@ -36,6 +36,10 @@
                         <?php echo $produit['nomProduit']; ?>
                     </option>
                 <?php endforeach; ?>
+                </select><br>
+
+        <label>Quantité :</label>
+            <input type="number" name="quantite"><br>
             </select><br>
         <input type="submit" value="Envoyer">
     </form>

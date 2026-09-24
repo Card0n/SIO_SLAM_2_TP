@@ -6,28 +6,31 @@ class Commandes{
 
     public function __construct(){
         try { 
+            $this->db = new PDO('mysql:host=192.168.10.115;dbname=TP_SLAMWEB_2027_elijah', 'webuser2027', '2i27@csd');
+            $this->prefixe = "TP2_";
+        } catch (PDOException) { 
             $this->db = new PDO('mysql:host=localhost;dbname=gestion_commande', 'root', '');
             // Activation des erreurs 
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException) { 
-            $this->db = new PDO('mysql:host=192.168.10.115;dbname=TP_SLAMWEB_2027_elijah', 'webuser2027', '2i27@csd');
-            $this->prefixe = "TP2_";
         } 
     }
 
     public function getCommandes()
     {
-        $query =$this->db->prepare("SELECT c.*, cl.nom, cl.prenom, s.nomstatut 
+        $query =$this->db->prepare("SELECT c.*, cl.nom, cl.prenom, s.nomStatut 
                                     FROM {$this->prefixe}commandes c
                                     JOIN {$this->prefixe}clients cl ON c.idClient = cl.idClient
-                                    JOIN {$this->prefixe}statut s ON c.idstatut = s.idstatut");
+                                    JOIN {$this->prefixe}statut s ON c.idStatut = s.idStatut");
         $query->execute();
         return $query->fetchAll();
     }
 
     public function getCommandeParNum($numCommande) 
     {
-        $query =$this->db->prepare("");//mettre requete
+        $query =$this->db->prepare("SELECT * FROM {$this->prefixe}commandes 
+                                    JOIN {$this->prefixe}contenir 
+                                    ON {$this->prefixe}commandes.numCommande = {$this->prefixe}contenir.numCommande 
+                                    WHERE numCommande = :numCommande");//à revoir
         $query->execute([':numCommande' =>$numCommande]);
         return $query->fetch();
     }
@@ -91,15 +94,26 @@ class Commandes{
 
 
 //Requetes pour l'ajout (INSERT)
-    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient)
+    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient, $quantite)
     {
-        $query = $this->db->prepare("INSERT INTO `{$this->prefixe}commandes`(`dateLivraison`, `idstatut`, `idproduit`, `idClient`) VALUES (:date_livraison, :idstatut, :idproduit, :idClient)");
+        $query1 = $this->db->prepare("INSERT INTO `{$this->prefixe}commandes`(`dateLivraison`, `idStatut`, `idProduit`, `idClient`) 
+                                    VALUES ( :dateLivraison, :idStatut, :idProduit, :idClient)");
         
         $query->execute([
-            ':date_livraison' => $dateLivraison,
-            ':idstatut' => $idstatut,
+            ':dateLivraison' => $dateLivraison,
+            ':idStatut' => $idStatut,
             ':idproduit' => $idproduit,
-            ':idClient' => $idClient
+            ':idClient' => $idClient,
+        ]);
+
+        $lastnum = $this->db->lastInsertId();
+
+        $query2 = $this->db->prepare("INSERT INTO `{$this->prefixe}contenir`(`dateLivraison`, `idStatut`, `idProduit`, `idClient`) 
+                                    VALUES ( :dateLivraison, :idStatut, :idProduit, :idClient)");
+
+        $query2->execute([
+            ':numCommande' => $lastnum,
+            ':idproduit' => $idproduit
         ]);
     }
 
@@ -140,15 +154,17 @@ class Commandes{
 //Requetes pour la modification (UPDATE)
     public function modifierCommande($numCommande, $dateLivraison, $statut, $produit, $idClient)
     {
-        $query = $this->db->prepare("UPDATE `{$this->prefixe}commandes` SET `dateLivraison` = :date_livraison, `statut` = :statut, `produit` = :produit, `idClient` = :idClient WHERE `numCommande` = :numCommande");
+        $query = $this->db->prepare("UPDATE `{$this->prefixe}commandes` SET `dateLivraison` = :dateLivraison, `statut` = :statut, `produit` = :produit, `idClient` = :idClient WHERE `numCommande` = :numCommande");
         
         $query->execute([
             ':numCommande' => $numCommande,
-            ':date_livraison' => $dateLivraison,
+            ':dateLivraison' => $dateLivraison,
             ':statut' => $statut,
             ':produit' => $produit,
             ':idClient' => $idClient
         ]);
+
+        
     }
 
     public function modifierClient($idClient, $prenom, $nom, $telephone, $mail, $adresse, $codePostal)

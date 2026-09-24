@@ -34,7 +34,7 @@
         <tr>
             <td><?php echo $commande['produit']; ?></td>
             <td><?php echo $commande['quantite']; ?></td>
-            <td><?php echo $commande['montantTotal'] * $commande['quantite']; ?> €</td>
+            <td><?php echo $commande['prixUnitaire'] * $commande['quantite']; ?> €</td>//modifie
         </tr>
     </table>
 

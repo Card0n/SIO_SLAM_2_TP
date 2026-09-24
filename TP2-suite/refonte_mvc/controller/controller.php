@@ -17,15 +17,15 @@ class Controller{
     }
 
 //Requetes pour les commandes
-    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient)
+    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient, $quantite)
     {
-        $this->model->ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient);
+        $this->model->ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient, $quantite);
         header('Location: index.php');
     }
 
-    public function modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient)
+    public function modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient, $quantite)
     {
-        $this->model->modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient);
+        $this->model->modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient, $quantite);
         header('Location: index.php');
     }
 
@@ -84,15 +84,15 @@ class Controller{
 
 //Requetes pour les statuts
 
-    public function ajouterStatut($nom)
+    public function ajouterStatut($nomStatut)
     {
-        $this->model->ajouterStatut($nom);
+        $this->model->ajouterStatut($nomStatut);
         header('Location: index.php?action=listeStatut');
     }
 
-    public function modifierStatut($idStatut, $nom)
+    public function modifierStatut($idStatut, $nomStatut)
     {
-        $this->model->modifierStatut($idStatut, $nom);
+        $this->model->modifierStatut($idStatut, $nomStatut);
         header('Location: index.php?action=listeStatut');
     }
 
@@ -102,7 +102,7 @@ class Controller{
         header('Location: index.php?action=listeStatut');
     }
 
-//Redirection vers les pages avec leur paramètres requis
+//Redirection vers les pages avec leur parametres requis
     //Pages commandes :
     public function pageAjoutCommande()
     {

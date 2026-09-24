@@ -34,7 +34,7 @@ CREATE TABLE `clients` (
   `telephone` int(11) NOT NULL,
   `mail` varchar(255) NOT NULL,
   `adresse` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=;
 
 --
 -- Déchargement des données de la table `clients`
