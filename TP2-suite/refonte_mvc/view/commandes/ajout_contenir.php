@@ -2,15 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Modification de la commande</title>
+    <title>Ajout de produit à la commande</title>
 </head>
 <body>
 <form action="index.php" method="post">
-        <input type="hidden" name="action" value="modifierCommande">
+        <input type="hidden" name="action" value="ajouterProduitCommande">
         <input type="hidden" name="numCommande" value="<?php echo $commande['numCommande']; ?>">
 
         <label>Client :</label><br>
-        <select name="idClient">
+        <select name="idClient" readonly>
             <?php foreach ($clients as $client): ?>
                 <option value="<?php echo $client['idClient']; ?>" 
                 <?php if ($client['idClient'] == $commande['idClient']) { echo "selected"; } ?>>
@@ -20,10 +20,10 @@
         </select><br><br>
 
         <label>Date de livraison :</label><br>
-        <input type="date" name="dateLivraison" value="<?php echo $commande['dateLivraison']; ?>"><br><br>
+        <input type="date" name="dateLivraison" value="<?php echo $commande['dateLivraison']; ?>" readonly><br><br>
 
         <label>Statut :</label><br>
-        <select name="idStatut">
+        <select name="idStatut" readonly>
             <?php foreach ($statuts as $statut): ?>
                 <option value="<?php echo $statut['idStatut']; ?>" 
                 <?php if ($statut['idStatut'] == $commande['idStatut']) { echo "selected"; } ?>>

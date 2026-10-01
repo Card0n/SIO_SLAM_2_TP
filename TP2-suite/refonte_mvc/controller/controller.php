@@ -17,15 +17,21 @@ class Controller{
     }
 
 //Requetes pour les commandes
-    public function ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient, $quantite)
+    public function ajouterCommande($dateLivraison, $idStatut, $idClient, $idProduit, $quantite)
     {
-        $this->model->ajouterCommande($dateLivraison, $idstatut, $idproduit, $idClient, $quantite);
+        $this->model->ajouterCommande($dateLivraison, $idStatut, $idClient, $idProduit, $quantite);
         header('Location: index.php');
     }
 
-    public function modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient, $quantite)
+    public function ajouterProduitCommande($numCommande, $idProduit, $quantite)
     {
-        $this->model->modifierCommande($numCommande, $dateLivraison, $idstatut, $idproduit, $idClient, $quantite);
+        $this->model->ajouterProduitCommande($numCommande, $idProduit, $quantite);
+        header('Location: index.php');
+    }
+
+    public function modifierCommande($numCommande, $dateLivraison, $idStatut, $idClient, $idProduit, $quantite)
+    {
+        $this->model->modifierCommande($numCommande, $dateLivraison, $idStatut, $idClient, $idProduit, $quantite);
         header('Location: index.php');
     }
 
@@ -112,14 +118,28 @@ class Controller{
         require 'view/commandes/ajout_commande.php';
     }
 
-        public function pageModifierCommande($numCommande) {
+    public function pageAjoutProduitCommande($numCommande) {
         $commande = $this->model->getCommandeParNum($numCommande);
+        $clients = $this->model->getClientsPourCommandes();
+        $statuts = $this->model->getStatutsPourCommandes();
+        $produits = $this->model->getProduitsPourCommandes();
+        require 'view/commandes/ajout_contenir.php';
+    }
+
+    public function pageModifierCommande($numCommande) {
+        $commande = $this->model->getCommandeParNum($numCommande);
+        $clients = $this->model->getClientsPourCommandes();
+        $statuts = $this->model->getStatutsPourCommandes();
+        $produits = $this->model->getProduitsPourCommandes();
         require 'view/commandes/modifier_commande.php';
     }
 
     public function pageDevis($numCommande) {
         $commande = $this->model->getCommandeParNum($numCommande);
-        require 'view/commandes/devis.php';
+        $client = $this->model->getClientParId($commande['idClient']);
+        $statut = $this->model->getStatutParId($commande['idStatut']);
+        $produit = $this->model->getProduitParId($commande['idProduit']);
+        require 'view/commandes/ajout_contenir.php';
     }
 
     //Pages clients :

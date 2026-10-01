@@ -8,11 +8,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') //Action effectuer selon le formulair
     //Commandes
     if (isset($_POST['action']) && $_POST['action'] === 'ajouterCommande') 
     {
-        $controller->ajouterCommande($_POST['date_livraison'], $_POST['statut'], $_POST['produit'], $_POST['client'], $_POST['quantite']);
+        $controller->ajouterCommande($_POST['dateLivraison'], $_POST['idStatut'], $_POST['idClient'], $_POST['idProduit'], $_POST['quantite']);
     }
     elseif (isset($_POST['action']) && $_POST['action'] === 'modifierCommande') 
     {
-        $controller->modifierCommande($_POST['numCommande'], $_POST['dateLivraison'], $_POST['statut'], $_POST['produit'], $_POST['idClient'], $_POST['quantite']);
+        $controller->modifierCommande($_POST['numCommande'], $_POST['dateLivraison'], $_POST['idStatut'], $_POST['idClient'], $_POST['idProduit'], $_POST['quantite']);
+    }
+    elseif (isset($_POST['action']) && $_POST['action'] === 'ajouterProduitCommande') 
+    {
+        $controller->ajouterProduitCommande($_POST['numCommande'], $_POST['idProduit'], $_POST['quantite']);
     }
 
     //Clients
@@ -45,7 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') //Action effectuer selon le formulair
         $controller->modifierStatut($_POST['idStatut'], $_POST['nomStatut']);
     }
 } 
-elseif (isset($_GET['action'])) //Action effectuer selon l'URL (donc bouton cliquer)
+
+//Action effectuer selon l'URL (donc bouton cliquer)
+elseif (isset($_GET['action'])) 
 {
     //Commandes
     if ($_GET['action'] === 'ajouterCommande') 
@@ -63,6 +69,10 @@ elseif (isset($_GET['action'])) //Action effectuer selon l'URL (donc bouton cliq
     elseif ($_GET['action'] === 'voir' && isset($_GET['numCommande'])) 
     {
         $controller->pageDevis($_GET['numCommande']);
+    }
+    elseif ($_GET['action'] === 'ajouterProduitCommande' && isset($_GET['numCommande'])) 
+    {
+        $controller->pageAjoutProduitCommande($_GET['numCommande']);
     }
 
     //CLients

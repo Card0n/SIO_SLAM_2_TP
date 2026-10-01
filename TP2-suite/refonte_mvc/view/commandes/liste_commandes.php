@@ -36,9 +36,10 @@
             <td><?php echo $commande['prenom'] . " " . $commande['nom']; ?></td>
             <td><?php echo $commande['dateCommande']; ?></td>
             <td><?php echo $commande['dateLivraison']; ?></td>
-            <td><?php echo $commande['statut']; ?></td>
+            <td><?php echo $commande['nomStatut']; ?></td>
             
             <td> <a href='index.php?action=modifierCommande&numCommande=<?php echo $commande['numCommande']; ?>'>Modifier</a> 
+            <a href='index.php?action=ajouterProduitCommande&numCommande=<?php echo $commande['numCommande']; ?>'>Ajouter un produit</a>
             <a href='index.php?action=supprimerCommande&numCommande=<?php echo $commande['numCommande']; ?>'>Supprimer</a> 
             <a href='index.php?action=voir&numCommande=<?php echo $commande['numCommande']; ?>'>Voir</a></td>
         </tr>
