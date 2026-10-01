@@ -8,7 +8,7 @@ class Commandes{
         try { 
             $this->db = new PDO('mysql:host=localhost;dbname=gestion_commande', 'root', '');
         } catch (PDOException) { 
-            $this->db = new PDO('mysql:host=192.168.10.115;dbname=TP_SLAMWEB_2027_elijah', 'webuser2027', '2i27@csd');
+            $this->db = new PDO('mysql:host=192.168.10.115;dbname=TP_SLAMWEB_2027_elijah', 'webuser2027', '2i27%csd');
             $this->prefixe = "TP2_";
             // Activation des erreurs 
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
