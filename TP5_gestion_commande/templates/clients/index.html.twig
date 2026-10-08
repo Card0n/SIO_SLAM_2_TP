@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Hello ClientController!{% endblock %}
+
+
+
+{% block body %}
+<style>
+    body {text-align: center;}
+
+table, th, td {border:1px solid black;text-align: center;margin: auto;}
+
+a {text-decoration: none;color: orange;}
+</style>
+
+
+
+<div class="example-wrapper">
+
+<h1>Liste des Clients</h1>
+<br>
+
+<button><a href="">Ajouter un client</a></button>
+
+    {% if clients|length > 0 %}
+
+<table>
+    <tr>
+        <th>Client</th>
+        <th>Téléphone</th>
+        <th>Mail</th>
+        <th>Adresse</th>
+        <th>Code postal</th>
+        <th>Actions</th>
+    </tr>
+<tr>
+
+            {% for client in clients %}
+    <td>
+        <strong>{{ client.nom }} {{ client.prenom }}</strong>
+    </td>
+    <td>
+        {% if client.telephone %}
+            {{ client.telephone }}
+        {% endif %}
+    </td>
+    <td>
+        {% if client.mail %}
+            {{ client.mail }}
+        {% endif %}
+    </td>
+    <td>
+        {% if client.adresse %}
+            {{ client.adresse }}
+        {% endif %}
+    </td>
+    <td>
+        {% if client.codePostal %}
+            {{ client.codePostal }}
+        {% endif %}
+    </td>
+    <td>
+        <a href="">Modifier</a>
+        <a href="">Supprimer</a>
+    </td>
+</tr>
+                {% endfor %}
+</tr>
+    {% else %}
+<p>Aucun client trouvé.</p>
+    {% endif %}
+
+
+
+</div>
+{% endblock %}
+
+
+
+
+
