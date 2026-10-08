@@ -7,13 +7,7 @@
 
 
 {% block body %}
-<style>
-    body {text-align: center;}
 
-table, th, td {border:1px solid black;text-align: center;margin: auto;}
-
-a {text-decoration: none;color: orange;}
-</style>
 
 
 
@@ -22,7 +16,7 @@ a {text-decoration: none;color: orange;}
 <h1>Liste des Clients</h1>
 <br>
 
-<button><a href="">Ajouter un client</a></button>
+<button><a href="{{ path('app_clients_ajouter') }}">Ajouter un client</a></button>
 
     {% if clients|length > 0 %}
 
@@ -39,7 +33,7 @@ a {text-decoration: none;color: orange;}
 
             {% for client in clients %}
     <td>
-        <strong>{{ client.nom }} {{ client.prenom }}</strong>
+        <strong>{{ client.prenom }} {{ client.nom }}</strong>
     </td>
     <td>
         {% if client.telephone %}
@@ -62,8 +56,8 @@ a {text-decoration: none;color: orange;}
         {% endif %}
     </td>
     <td>
-        <a href="">Modifier</a>
-        <a href="">Supprimer</a>
+        <a href="{{ path('app_clients_modifier') }}">Modifier</a>
+        <a href="{{ path('app_clients_supprimer') }}">Supprimer</a>
     </td>
 </tr>
                 {% endfor %}
